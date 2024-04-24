@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS fishes_db;
+CREATE DATABASE fishes_db;
