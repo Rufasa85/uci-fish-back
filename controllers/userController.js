@@ -3,7 +3,7 @@
 //TODO: add neccesary joins
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models");
+const { User, Tank, Fish } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -79,7 +79,12 @@ router.post("/login", (req, res) => {
 
 //read one
 router.get("/:id", (req, res) => {
-  User.findByPk(req.params.id)
+  User.findByPk(req.params.id,{
+    include:[{
+      model:Tank,
+      include:[Fish]
+    }]
+  })
     .then((data) => {
       if (!data) {
         return res.status(404).json({ msg: "no such User" });

@@ -5,6 +5,7 @@
 const express = require('express');
 const router = express.Router();
 const {Fish} = require('../models');
+const tokenAuth = require('../middleware/tokenAuth');
 
 //read all
 router.get("/",(req,res)=>{
@@ -17,8 +18,13 @@ router.get("/",(req,res)=>{
 })
 
 //create
-router.post("/",(req,res)=>{
-    Fish.create(req.body).then(data=>{
+router.post("/",tokenAuth,(req,res)=>{
+    Fish.create({
+        name:req.body.name,
+        color:req.body.color,
+        width:req.body.width,
+        TankId:req.body.TankId
+    }).then(data=>{
         res.json(data)
     }).catch(err=>{
         console.log(err);
